@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Current Login</title>
+
+<link rel="stylesheet" href="main.css">
+
+</head>
+
+
+<body>
+
+
+<section class="card glass">
+
+
+<h1>
+Sign in to Current
+</h1>
+
+
+<input 
+id="phone"
+placeholder="+15551234567">
+
+
+<button class="button" id="send">
+
+<span>
+Send code
+</span>
+
+</button>
+
+
+
+<input 
+id="code"
+placeholder="Verification code">
+
+
+<button class="button" id="verify">
+
+<span>
+Verify
+</span>
+
+</button>
+
+
+<p id="status"></p>
+
+
+</section>
+
+
+
+<script type="module">
+
+
+import {supabase} from "./supabase.js";
+
+
+
+const phone =
+document.getElementById("phone");
+
+
+const code =
+document.getElementById("code");
+
+
+const status =
+document.getElementById("status");
+
+
+
+
+document
+.getElementById("send")
+.onclick=async()=>{
+
+
+const {error}=await supabase.auth.signInWithOtp({
+
+phone:phone.value
+
+});
+
+
+status.textContent =
+error ? error.message :
+"Code sent";
+
+
+};
+
+
+
+
+
+document
+.getElementById("verify")
+.onclick=async()=>{
+
+
+const {data,error}=await supabase.auth.verifyOtp({
+
+phone:phone.value,
+
+token:code.value,
+
+type:"sms"
+
+});
+
+
+
+if(error){
+
+status.textContent=error.message;
+
+return;
+
+}
+
+
+
+await createProfile(data.user);
+
+
+location.href="main.html";
+
+
+};
+
+
+
+
+
+async function createProfile(user){
+
+
+await supabase
+.from("current_profiles")
+.upsert({
+
+id:user.id,
+
+display_name:
+"New Current User"
+
+});
+
+
+
+await supabase
+.from("current_settings")
+.upsert({
+
+user_id:user.id
+
+});
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
