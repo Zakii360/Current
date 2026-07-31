@@ -4,11 +4,12 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Current | Private messaging</title>
+<title>Current | Private Messaging</title>
 
 <link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="responsive.css">
 
 </head>
 
@@ -23,15 +24,20 @@
 </div>
 
 
-<div class="nav-actions">
+<div>
 
 <button class="button ripple-btn" id="theme">
-<span>Theme</span>
+<span>
+Theme
+</span>
 </button>
 
 </div>
 
+
 </nav>
+
+
 
 
 
@@ -51,6 +57,7 @@ Your way.
 </h1>
 
 
+
 <p>
 
 Current is an open source messenger built around privacy,
@@ -63,22 +70,23 @@ customization, and user ownership.
 <div class="actions">
 
 
-<button class="button ripple-btn">
+<a href="auth.html" class="button ripple-btn">
 
 <span>
 Create account
 </span>
 
-</button>
+</a>
 
 
-<button class="button secondary ripple-btn">
+
+<a href="#privacy" class="button secondary ripple-btn">
 
 <span>
-Explore
+Learn more
 </span>
 
-</button>
+</a>
 
 
 </div>
@@ -95,7 +103,9 @@ Explore
 
 <div class="contact">
 
+
 <div class="avatar"></div>
+
 
 <div>
 
@@ -106,8 +116,7 @@ Alex
 <br>
 
 <small>
-online
-</small>
+online</small>
 
 </div>
 
@@ -116,7 +125,10 @@ online
 
 
 
-<div id="messages"></div>
+<div id="messages">
+
+</div>
+
 
 
 <div id="typing" class="typing">
@@ -137,7 +149,7 @@ online
 
 
 
-<section class="card glass">
+<section class="card glass" id="privacy">
 
 
 <h2>
@@ -147,10 +159,11 @@ Private by design
 
 <p>
 
-Current uses Supabase Auth, Postgres,
-Realtime, Storage, and Edge Functions.
-Messages are designed to be encrypted
-before storage.
+Current uses Supabase Auth, PostgreSQL, Realtime,
+Storage, and Edge Functions.
+
+Messages are designed to be encrypted on the client
+before being stored.
 
 </p>
 
@@ -171,9 +184,9 @@ Open source
 
 <p>
 
-No mystery systems.
-The goal is transparent software
-that users can inspect and customize.
+Current is built to be transparent.
+The goal is software users can inspect,
+modify, and trust.
 
 </p>
 
@@ -188,27 +201,29 @@ that users can inspect and customize.
 
 
 <h2>
-Built with Supabase
+Supabase stack
 </h2>
 
 
 <p>
 
-Current uses:
+Authentication:
+Supabase Phone OTP
 
 <br><br>
 
-• Supabase Auth
-<br>
-• PostgreSQL
-<br>
-• Row Level Security
-<br>
-• Realtime channels
-<br>
-• Storage
-<br>
-• Edge Functions
+Database:
+PostgreSQL with RLS
+
+<br><br>
+
+Realtime:
+Messages, typing, presence
+
+<br><br>
+
+Storage:
+Encrypted media attachments
 
 </p>
 
@@ -218,6 +233,9 @@ Current uses:
 
 
 </main>
+
+
+
 
 
 <script type="module" src="script.js"></script>
