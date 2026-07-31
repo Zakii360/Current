@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Current Settings</title>
+
+<link rel="stylesheet" href="main.css">
+
+<link rel="stylesheet" href="responsive.css">
+
+</head>
+
+
+<body>
+
+
+<nav class="glass">
+
+<div class="brand">
+
+<span>◉</span>
+Current Settings
+
+</div>
+
+
+<a href="main.html">
+
+Back
+
+</a>
+
+</nav>
+
+
+
+
+
+<section class="card glass settings">
+
+
+<h1>
+Customization
+</h1>
+
+
+
+<h2>
+Theme
+</h2>
+
+
+<div class="theme-grid">
+
+
+<button class="button theme-choice"
+data-theme="light">
+
+<span>
+Light
+</span>
+
+</button>
+
+
+<button class="button theme-choice"
+data-theme="dark">
+
+<span>
+Dark
+</span>
+
+</button>
+
+
+</div>
+
+
+
+
+
+<h2>
+Accent color
+
+</h2>
+
+
+
+<input 
+type="color"
+id="accent"
+value="#18a96b">
+
+
+
+
+
+<h2>
+Privacy
+
+</h2>
+
+
+<p>
+
+Current stores preferences in
+<code>current_settings</code>.
+
+Messages are designed to be encrypted
+before being stored in
+<code>current_messages</code>.
+
+</p>
+
+
+
+</section>
+
+
+
+
+<script>
+
+
+document
+.querySelectorAll(".theme-choice")
+.forEach(button=>{
+
+
+button.onclick=()=>{
+
+
+if(button.dataset.theme==="dark"){
+
+document.body.classList.add("dark");
+
+}else{
+
+document.body.classList.remove("dark");
+
+}
+
+
+};
+
+
+});
+
+
+
+
+document
+.getElementById("accent")
+.oninput=e=>{
+
+
+document.documentElement
+.style
+.setProperty(
+"--accent",
+e.target.value
+);
+
+
+};
+
+
+</script>
+
+
+
+</body>
+
+</html>
