@@ -1,5 +1,4 @@
-import { supabase } from "./supabase.js";
-
+import {supabase} from "./supabase.js";
 
 
 const messages =
@@ -14,46 +13,99 @@ const send =
 document.getElementById("send");
 
 
+let conversationId = null;
 
 
 
-async function getUser(){
+async function start(){
 
 
 const {
-
 data:{
 session
-
 }
 
 }=await supabase.auth.getSession();
 
 
-
 if(!session){
 
-location.href="landing.html";
+location.href="auth.html";
 
 return;
 
 }
 
 
+
+await loadMessages();
+
+
+
+subscribe();
+
+
 }
 
 
 
-getUser();
+async function loadMessages(){
+
+
+/*
+
+Temporary:
+replace with selected conversation
+
+*/
+
+
+const {
+data
+
+}=await supabase
+.from("current_messages")
+.select("*")
+.order(
+"created_at",
+{
+ascending:true
+}
+);
+
+
+
+messages.innerHTML="";
+
+
+
+data?.forEach(message=>{
+
+
+addMessage(
+message.ciphertext,
+message.sender_id===
+session.user.id
+?
+"right":
+"left"
+);
+
+
+});
+
+
+}
 
 
 
 
 
-function addMessage(text,type="right"){
+function addMessage(text,type){
 
 
-const div=document.createElement("div");
+const div=
+document.createElement("div");
 
 
 div.className=
@@ -66,10 +118,6 @@ div.textContent=text;
 messages.appendChild(div);
 
 
-messages.scrollTop=
-messages.scrollHeight;
-
-
 }
 
 
@@ -79,36 +127,41 @@ messages.scrollHeight;
 send.onclick=async()=>{
 
 
-const text=input.value.trim();
+const text=
+input.value.trim();
 
 
 if(!text)return;
 
 
 
-addMessage(text);
+const {
+data:{
+session
+}
+
+}=await supabase.auth.getSession();
 
 
-
-input.value="";
-
-
-
-/*
-
-Future:
 
 await supabase
 .from("current_messages")
 .insert({
 
-conversation_id:"",
-sender_id:"",
-ciphertext:text
+conversation_id:
+conversationId,
 
-})
+sender_id:
+session.user.id,
 
-*/
+ciphertext:
+text
+
+});
+
+
+
+input.value="";
 
 
 };
@@ -117,44 +170,44 @@ ciphertext:text
 
 
 
-input.addEventListener(
-"keydown",
-e=>{
 
-if(e.key==="Enter"){
+function subscribe(){
 
-send.click();
-
-}
-
-});
-
-
-
-
-
-
-// Realtime preparation
-
-
-/*
 
 supabase
 .channel("current_messages")
 .on(
+
 "postgres_changes",
+
 {
+
 event:"INSERT",
+
 schema:"public",
+
 table:"current_messages"
+
 },
+
 payload=>{
 
-console.log(payload);
+
+addMessage(
+payload.new.ciphertext,
+"left"
+);
+
 
 }
+
 )
+
 .subscribe();
 
 
-*/
+}
+
+
+
+start();
