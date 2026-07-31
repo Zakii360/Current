@@ -1,42 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Current</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-</head>
-
-<body>
-
 <script type="module">
 
-import { supabase } from "./supabase.js";
+import {supabase}
+from "./supabase.js";
 
 
-async function start(){
-
-    const {
-        data:{
-            session
-        }
-    } = await supabase.auth.getSession();
-
-
-    if(session){
-
-        location.replace("main.html");
-
-    }else{
-
-        location.replace("landing.html");
-
-    }
-
+const {
+data:{
+session
 }
 
-start();
+}=await supabase.auth.getSession();
+
+
+
+location.href =
+session ?
+"main.html":
+"landing.html";
+
 
 </script>
-
-</body>
-</html>
