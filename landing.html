@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>Current | Private Messaging</title>
 
 <link rel="stylesheet" href="main.css">
 <link rel="stylesheet" href="responsive.css">
-
 </head>
 
-
 <body>
-
 
 <nav class="glass">
 
@@ -23,32 +17,17 @@
 <span>◉</span> Current
 </div>
 
-
-<div>
-
 <button class="button ripple-btn" id="theme">
-<span>
-Theme
-</span>
+<span>Theme</span>
 </button>
 
-</div>
-
-
 </nav>
-
-
-
-
-
-<main>
 
 
 <section class="hero">
 
 
 <div class="hero-copy">
-
 
 <h1>
 Private conversations.
@@ -57,81 +36,73 @@ Your way.
 </h1>
 
 
-
 <p>
-
 Current is an open source messenger built around privacy,
-customization, and user ownership.
-
+customization, and ownership.
 </p>
-
 
 
 <div class="actions">
 
-
 <a href="auth.html" class="button ripple-btn">
-
-<span>
-Create account
-</span>
-
+<span>Create account</span>
 </a>
-
 
 
 <a href="#privacy" class="button secondary ripple-btn">
-
-<span>
-Learn more
-</span>
-
+<span>Learn more</span>
 </a>
 
+</div>
 
 </div>
 
 
-</div>
 
 
-
-
-
-<div class="phone glass">
+<div class="phone glass" id="chatDemo">
 
 
 <div class="contact">
 
-
 <div class="avatar"></div>
 
-
 <div>
-
-<strong>
-Alex
-</strong>
-
+<strong>Alex</strong>
 <br>
+<small>online</small>
+</div>
 
-<small>
-online</small>
+</div>
 
+
+<div class="demo-messages">
+
+
+<div class="message left demo-message"
+data-text="Hey, have you tried Current yet?">
+</div>
+
+
+<div class="message right demo-message"
+data-text="Yeah. The customization feels really clean.">
+</div>
+
+
+<div class="message left demo-message"
+data-text="The privacy approach is what interested me.">
+</div>
+
+
+<div class="message right demo-message"
+data-text="Open source messaging done properly.">
 </div>
 
 
 </div>
 
 
-
-<div id="messages">
-
-</div>
-
-
-
-<div id="typing" class="typing">
+<div class="typing">
 
 <span></span>
 <span></span>
@@ -144,103 +115,56 @@ online</small>
 
 
 </section>
-
 
 
 
 
 <section class="card glass" id="privacy">
 
-
 <h2>
 Private by design
 </h2>
 
-
 <p>
-
 Current uses Supabase Auth, PostgreSQL, Realtime,
 Storage, and Edge Functions.
-
-Messages are designed to be encrypted on the client
-before being stored.
-
 </p>
-
 
 </section>
 
 
 
+<section class="card glass">
+
+<h2>
+Your settings belong to you
+</h2>
+
+<p>
+Themes, accents, wallpapers, and preferences are synced
+to your Current account.
+</p>
+
+</section>
+
 
 
 <section class="card glass">
-
 
 <h2>
 Open source
 </h2>
 
-
 <p>
-
-Current is built to be transparent.
-The goal is software users can inspect,
-modify, and trust.
-
+The goal is transparent communication software
+users can inspect and customize.
 </p>
 
-
 </section>
-
-
-
-
-
-<section class="card glass">
-
-
-<h2>
-Supabase stack
-</h2>
-
-
-<p>
-
-Authentication:
-Supabase Phone OTP
-
-<br><br>
-
-Database:
-PostgreSQL with RLS
-
-<br><br>
-
-Realtime:
-Messages, typing, presence
-
-<br><br>
-
-Storage:
-Encrypted media attachments
-
-</p>
-
-
-</section>
-
-
-
-</main>
-
-
 
 
 
 <script type="module" src="script.js"></script>
 
-
 </body>
-
 </html>
