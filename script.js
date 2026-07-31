@@ -1,113 +1,179 @@
-const messages=document.getElementById("messages");
-const typing=document.getElementById("typing");
+const demo =
+document.getElementById("chatDemo");
 
 
-const conversation=[
-
-["left","Alex","Hey, have you seen Current yet?"],
-
-["right"," ","Yeah, the customization is actually nice."],
-
-["left"," ","The privacy model is what got me."],
-
-["right"," ","Open source messaging feels different."]
-
-];
+const messages =
+document.querySelectorAll(".demo-message");
 
 
+const typing =
+document.querySelector(".typing");
 
-function wait(ms){
 
-return new Promise(r=>setTimeout(r,ms));
+let running=false;
 
+
+function sleep(ms){
+return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
 
 
-async function sendMessage(type,name,text){
+async function typeMessage(element){
+
+const text =
+element.dataset.text;
+
+
+element.textContent="";
 
 
 typing.style.display="block";
 
-await wait(800);
+
+await sleep(700);
 
 
 typing.style.display="none";
 
 
-let div=document.createElement("div");
-
-div.className="message "+type;
-
-div.textContent=name+": ";
-
-messages.appendChild(div);
-
-
-
 for(const char of text){
 
-div.textContent+=char;
+element.textContent += char;
 
-await wait(30+Math.random()*80);
-
-}
-
-
-}
-
-
-
-async function runChat(){
-
-for(const msg of conversation){
-
-await sendMessage(
-msg[0],
-msg[1],
-msg[2]
+await sleep(
+35 + Math.random()*70
 );
 
-await wait(600);
-
-}
-
 }
 
 
-runChat();
+}
+
+
+
+async function runDemo(){
+
+if(running)
+return;
+
+
+running=true;
+
+
+for(const message of messages){
+
+message.classList.add("visible");
+
+await typeMessage(message);
+
+await sleep(500);
+
+}
+
+
+running=false;
+
+}
+
+
+
+function resetDemo(){
+
+messages.forEach(message=>{
+
+message.textContent="";
+
+message.classList.remove("visible");
+
+});
+
+
+typing.style.display="none";
+
+
+running=false;
+
+}
+
+
+
+const observer =
+new IntersectionObserver(entries=>{
+
+
+entries.forEach(entry=>{
+
+
+if(entry.isIntersecting){
+
+runDemo();
+
+}else{
+
+resetDemo();
+
+}
+
+
+});
+
+
+},{
+threshold:.55
+});
+
+
+
+observer.observe(demo);
 
 
 
 
-document.querySelectorAll(".ripple-btn")
-.forEach(btn=>{
 
-btn.onclick=e=>{
+document
+.querySelectorAll(".ripple-btn")
+.forEach(button=>{
 
-let r=document.createElement("span");
 
-r.className="ripple";
+button.onclick=e=>{
 
-let size=Math.max(
-btn.offsetWidth,
-btn.offsetHeight
+
+const ripple =
+document.createElement("span");
+
+
+ripple.className="ripple";
+
+
+const size =
+Math.max(
+button.offsetWidth,
+button.offsetHeight
 );
 
 
-r.style.width=size+"px";
 
-r.style.height=size+"px";
+ripple.style.width=size+"px";
 
-r.style.left=e.offsetX-size/2+"px";
-
-r.style.top=e.offsetY-size/2+"px";
+ripple.style.height=size+"px";
 
 
-btn.appendChild(r);
+ripple.style.left =
+e.offsetX-size/2+"px";
 
 
-setTimeout(()=>r.remove(),700);
+ripple.style.top =
+e.offsetY-size/2+"px";
+
+
+button.appendChild(ripple);
+
+
+setTimeout(()=>{
+ripple.remove()
+},700);
+
 
 };
 
@@ -116,7 +182,10 @@ setTimeout(()=>r.remove(),700);
 
 
 
-document.getElementById("theme")
+
+
+document
+.getElementById("theme")
 .onclick=()=>{
 
 document.body.classList.toggle("dark");
