@@ -85,29 +85,35 @@ document.getElementById("su-submit").onclick=async()=>{
   btn.innerHTML="<span>Creating…</span>"; btn.disabled=true;
 
   try {
-    // 1. Generate E2EE key pair
+    // 1. Generate E2EE key pair locally first
     const identityKey = await generateIdentityKeyPair();
 
-    // 2. Create Supabase auth user
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    // 2. Sign up — pass all profile fields as metadata so the DB trigger creates the profile
+    // as SECURITY DEFINER (bypasses RLS entirely, works even with email confirm on)
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username,
+          display_name: username,
+          identity_key: identityKey,
+          phone_number: phone || null,
+        }
+      }
+    });
     if(error) throw error;
 
-    const userId = data.user.id;
-
-    // 3. Create profile
-    const profileData = {
-      id: userId,
-      username,
-      display_name: username,
-      identity_key: identityKey,
-    };
-    if(phone) profileData.phone_number = phone;
-
-    const { error: profErr } = await supabase.from("current_profiles").insert(profileData);
-    if(profErr) throw profErr;
-
-    // 4. Go to app
-    location.replace("main.html");
+    // 3. If session exists immediately (email confirm off) → go to app
+    //    If not (email confirm on) → show message
+    if(data.session) {
+      location.replace("main.html");
+    } else {
+      // Email confirm required — but profile was already created by trigger
+      errEl.style.color = "var(--accent)";
+      errEl.textContent = "✓ Account created! Check your email to confirm, then sign in.";
+      btn.innerHTML="<span>Create account</span>"; btn.disabled=false;
+    }
   } catch(e) {
     errEl.textContent = e.message || "Sign up failed.";
     btn.innerHTML="<span>Create account</span>"; btn.disabled=false;
