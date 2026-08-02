@@ -3,7 +3,7 @@ import { generateIdentityKeyPair, hasIdentityKey, importKeyBackup, bufToB64 } fr
 
 // Username → deterministic fake email Supabase auth uses internally (never shown)
 function usernameToEmail(u) {
-  return `${u.toLowerCase()}@current.local`;
+  return `${u.toLowerCase()}@current-app.xyz`;
 }
 
 // Generate a random 8-word recovery code
@@ -101,7 +101,7 @@ document.getElementById("su-submit").onclick=async()=>{
   try {
     // Check username taken
     const { data: existing } = await supabase
-      .from("current_profiles").select("id").eq("username", username).single();
+      .from("current_profiles").select("id").eq("username", username).maybeSingle();
     if(existing){ errEl.textContent="Username already taken."; btn.innerHTML="<span>Create account</span>"; btn.disabled=false; return; }
 
     // Generate E2EE keys + recovery code
