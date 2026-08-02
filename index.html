@@ -6,13 +6,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body>
-<script type="module">
-import { supabase } from "./supabase.js";
-async function start() {
-  const { data: { session } } = await supabase.auth.getSession();
-  location.replace(session ? "main.html" : "landing.html");
-}
-start();
+<script>
+  const s = localStorage.getItem("current_session");
+  location.replace(s ? "main.html" : "landing.html");
 </script>
 </body>
 </html>
