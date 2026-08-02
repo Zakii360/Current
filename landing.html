@@ -2,169 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Current | Private Messaging</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Current | Private messaging</title>
 <link rel="stylesheet" href="main.css">
-<link rel="stylesheet" href="responsive.css">
 </head>
-
 <body>
 
 <nav class="glass">
-
-<div class="brand">
-<span>◉</span> Current
-</div>
-
-<button class="button ripple-btn" id="theme">
-<span>Theme</span>
-</button>
-
+  <div class="brand"><span>◉</span> Current</div>
+  <div class="nav-actions">
+    <button class="button ghost sm ripple-btn" id="theme"><span>Theme</span></button>
+    <button class="button sm ripple-btn" id="open-signin"><span>Sign in</span></button>
+    <button class="button accent sm ripple-btn" id="open-signup"><span>Create account</span></button>
+  </div>
 </nav>
 
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Private conversations.<br>Your way.</h1>
+      <p>Current is an open-source messenger with real end-to-end encryption. Your keys never leave your device.</p>
+      <div class="e2ee-badge" style="display:inline-flex;margin-bottom:24px;">
+        🔐 End-to-end encrypted · Open source · No ads
+      </div>
+      <div class="actions">
+        <button class="button accent ripple-btn" id="hero-signup"><span>Create account</span></button>
+        <button class="button secondary ripple-btn" id="hero-signin"><span>Sign in</span></button>
+      </div>
+    </div>
 
-<section class="hero">
+    <div class="phone glass">
+      <div class="phone-header">
+        <div class="avatar" style="background:linear-gradient(135deg,#18a96b,#064f32)">A</div>
+        <div>
+          <strong>Alex</strong><br>
+          <small style="color:var(--muted)">online</small>
+        </div>
+        <span class="e2ee-badge" style="margin-left:auto;font-size:10px;">🔐 E2EE</span>
+      </div>
+      <div id="phone-messages"></div>
+      <div id="typing" class="typing" style="margin-top:10px;padding:6px 0;">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </section>
 
+  <div class="feature-grid">
+    <section class="card glass">
+      <h2>🔐 True E2EE</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6">
+        Messages encrypted with AES-256-GCM. Keys derived from ECDH P-256 key pairs stored only in your browser. The server never sees plaintext.
+      </p>
+    </section>
+    <section class="card glass">
+      <h2>💨 Disappearing messages</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6">
+        Set messages to vanish after 5 seconds, 1 minute, 1 hour, or 1 week. Per-conversation or per-message.
+      </p>
+    </section>
+    <section class="card glass">
+      <h2>📵 Read receipts control</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6">
+        Choose who knows you've read their messages. Toggle last-seen visibility, online status, and typing indicators independently.
+      </p>
+    </section>
+    <section class="card glass">
+      <h2>🔑 Key backup</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6">
+        Export your encrypted key backup protected by a password. Restore on any device without trusting the server.
+      </p>
+    </section>
+    <section class="card glass">
+      <h2>🚫 Block & report</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6">
+        Block users instantly. Blocked contacts can't see your online status or send you messages.
+      </p>
+    </section>
+    <section class="card glass">
+      <h2>📱 Phone linking</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6">
+        Optionally link a phone number to your account for recovery and discovery. Fully optional — no number required.
+      </p>
+    </section>
+  </div>
+</main>
 
-<div class="hero-copy">
-
-<h1>
-Private conversations.
-<br>
-Your way.
-</h1>
-
-
-<p>
-Current is an open source messenger built around privacy,
-customization, and ownership.
-</p>
-
-
-<div class="actions">
-
-<a href="auth.html" class="button ripple-btn">
-<span>Create account</span>
-</a>
-
-
-<a href="#privacy" class="button secondary ripple-btn">
-<span>Learn more</span>
-</a>
-
+<!-- Sign Up Modal -->
+<div class="modal-backdrop" id="signup-modal" style="display:none">
+  <div class="modal">
+    <h2>Create account</h2>
+    <p>Your encryption keys will be generated on your device.</p>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="su-username" placeholder="e.g. alex_p" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="su-email" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="su-password" placeholder="Min 8 characters">
+    </div>
+    <div class="form-group">
+      <label>Phone number (optional)</label>
+      <input type="tel" id="su-phone" placeholder="+1 555 000 0000">
+    </div>
+    <div id="su-error" class="error-msg"></div>
+    <div class="modal-actions">
+      <button class="button ghost" id="su-cancel"><span>Cancel</span></button>
+      <button class="button accent" id="su-submit"><span>Create account</span></button>
+    </div>
+  </div>
 </div>
 
+<!-- Sign In Modal -->
+<div class="modal-backdrop" id="signin-modal" style="display:none">
+  <div class="modal">
+    <h2>Sign in</h2>
+    <p>Welcome back. Your messages are waiting.</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="si-email" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="si-password" placeholder="">
+    </div>
+    <div id="si-error" class="error-msg"></div>
+
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+      <small style="color:var(--muted)">Key backup restore</small><br>
+      <textarea id="si-backup" placeholder='Paste key backup JSON (optional — only if logging in on a new device)' style="width:100%;margin-top:6px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--glass);color:var(--text);font-family:monospace;font-size:11px;resize:vertical;min-height:60px;outline:none"></textarea>
+      <input type="password" id="si-backup-pw" placeholder="Backup password" style="margin-top:6px;width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--glass);color:var(--text);font-size:13px;outline:none">
+    </div>
+
+    <div class="modal-actions">
+      <button class="button ghost" id="si-cancel"><span>Cancel</span></button>
+      <button class="button accent" id="si-submit"><span>Sign in</span></button>
+    </div>
+  </div>
 </div>
 
-
-
-
-<div class="phone glass" id="chatDemo">
-
-
-<div class="contact">
-
-<div class="avatar"></div>
-
-<div>
-<strong>Alex</strong>
-<br>
-<small>online</small>
-</div>
-
-</div>
-
-
-<div class="demo-messages">
-
-
-<div class="message left demo-message"
-data-text="Hey, have you tried Current yet?">
-</div>
-
-
-<div class="message right demo-message"
-data-text="Yeah. The customization feels really clean.">
-</div>
-
-
-<div class="message left demo-message"
-data-text="The privacy approach is what interested me.">
-</div>
-
-
-<div class="message right demo-message"
-data-text="Open source messaging done properly.">
-</div>
-
-
-</div>
-
-
-<div class="typing">
-
-<span></span>
-<span></span>
-<span></span>
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-<section class="card glass" id="privacy">
-
-<h2>
-Private by design
-</h2>
-
-<p>
-Current uses Supabase Auth, PostgreSQL, Realtime,
-Storage, and Edge Functions.
-</p>
-
-</section>
-
-
-
-<section class="card glass">
-
-<h2>
-Your settings belong to you
-</h2>
-
-<p>
-Themes, accents, wallpapers, and preferences are synced
-to your Current account.
-</p>
-
-</section>
-
-
-
-<section class="card glass">
-
-<h2>
-Open source
-</h2>
-
-<p>
-The goal is transparent communication software
-users can inspect and customize.
-</p>
-
-</section>
-
-
-
-<script type="module" src="script.js"></script>
-
+<script type="module" src="landing.js"></script>
 </body>
 </html>
