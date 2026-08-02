@@ -231,5 +231,3 @@ document.getElementById("rec-submit").onclick=async()=>{
     btn.innerHTML="<span>Recover account</span>"; btn.disabled=false;
   }
 };
-
-function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
